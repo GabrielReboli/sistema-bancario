@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Relatório sobre a Implementação do Sistema Bancário}
+\author{Gabriel da Silva Reboli}
+\date{CC4M}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+Este relatório descreve a implementação de um sistema bancário utilizando o padrão de projeto \textit{Factory Method}. O sistema gerencia contas correntes, poupanças e contas salário, bem como operações realizadas por clientes, agências e o banco. Serão discutidas as estruturas de classes utilizadas, como o padrão foi aplicado e sugestões de melhorias.
+
+\section{Aplicação do Padrão \textit{Factory Method}}
+O padrão \textit{Factory Method} foi implementado para facilitar a criação de diferentes tipos de contas bancárias. Cada tipo de conta (\texttt{CurrentAccount}, \texttt{SavingsAccount}, \texttt{SalaryAccount}) é gerado por uma fábrica específica, implementando a interface \texttt{IAccountFactory}. Esse padrão oferece flexibilidade ao sistema, permitindo que novas contas possam ser adicionadas sem modificar o código existente.
+
+\subsection{Detalhes da Implementação}
+A interface \texttt{IAccountFactory} define um método \texttt{CreateAccount}, que é implementado por cada fábrica de contas. As fábricas \texttt{CurrentAccountFactory}, \texttt{SavingsAccountFactory} e \texttt{SalaryAccountFactory} encapsulam a lógica de criação de cada tipo de conta, fornecendo a separação clara entre a lógica de criação e o uso da conta no sistema.
+
+O método \texttt{CreateAccount} recebe parâmetros variáveis para cada tipo de conta, como \textit{service fee} e \textit{limit} para contas correntes, e \textit{rate} para contas poupanças. Isso facilita a criação de instâncias de contas com os parâmetros corretos sem modificar o código principal do programa (\texttt{Program.cs}).
+
+\subsection{Vantagens do \textit{Factory Method}}
+\begin{itemize}
+    \item \textbf{Extensibilidade}: Novos tipos de contas podem ser adicionados facilmente ao sistema, criando novas fábricas que implementem a interface \texttt{IAccountFactory}, sem necessidade de alterar outras partes do código.
+    \item \textbf{Manutenção}: O uso do padrão centraliza a lógica de criação das contas, permitindo que o código cliente apenas dependa das fábricas, o que facilita a manutenção e atualização do sistema.
+\end{itemize}
+
+\section{Estrutura do Código}
+O código está estruturado em classes que representam entidades do sistema bancário:
+
+\begin{itemize}
+    \item \textbf{Bank}: A classe \texttt{Bank} gerencia uma coleção de agências (\texttt{Branch}) e clientes (\texttt{Client}). Ela permite adicionar, remover e buscar agências e clientes pelo CPF.
+    \item \textbf{Branch}: A classe \texttt{Branch} gerencia contas bancárias, permitindo operações de adição, remoção e busca de contas.
+    \item \textbf{Client}: Representa um cliente do banco com informações pessoais (CPF, nome, endereço, telefone e email).
+    \item \textbf{Account (abstrata)}: Define a interface para operações comuns de contas bancárias, como sacar, depositar, transferir e obter o saldo. As classes \texttt{CurrentAccount}, \texttt{SavingsAccount} e \texttt{SalaryAccount} herdam dessa classe e implementam regras de negócio específicas.
+    \item \textbf{Fábricas}: As fábricas \texttt{CurrentAccountFactory}, \texttt{SavingsAccountFactory} e \texttt{SalaryAccountFactory} implementam a lógica para criação de diferentes tipos de contas, seguindo o padrão \textit{Factory Method}.
+\end{itemize}
+
+\section{Possíveis Melhorias}
+Embora o sistema esteja bem estruturado e siga o padrão de projeto \textit{Factory Method}, algumas melhorias podem ser implementadas:
+\begin{itemize}
+    \item \textbf{Validação de Dados}: Incluir mecanismos para validar corretamente os parâmetros de entrada, como número de conta e saldo, antes de criar as contas ou realizar operações.
+    \item \textbf{Tratamento de Exceções}: Melhorar o tratamento de exceções, fornecendo mensagens de erro mais detalhadas e úteis ao usuário final.
+    \item \textbf{Testes Automatizados}: Implementar testes unitários para garantir que as regras de negócio, como o limite de saques em contas poupança e a restrição de Pix para contas salário, estão sendo respeitadas.
+    \item \textbf{Persistência de Dados}: O sistema pode ser aprimorado com um banco de dados para armazenar informações sobre contas, clientes e operações, permitindo persistência entre execuções.
+\end{itemize}
+
+\section{Conclusão}
+O uso do padrão \textit{Factory Method} neste sistema bancário traz flexibilidade e facilita a manutenção e a extensão do código. A estrutura atual atende aos requisitos de criação de contas e operações básicas, mas melhorias podem ser feitas, especialmente em termos de validação e tratamento de exceções, além da implementação de persistência de dados.
+
+\end{document}
+
